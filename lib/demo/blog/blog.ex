@@ -18,7 +18,8 @@ defmodule Demo.Blog do
 
   """
   def list_posts do
-    Repo.all(Post)
+    posts_query = from post in Post, order_by: {:desc, :inserted_at}
+    Repo.all(posts_query)
   end
 
   @doc """
