@@ -12,6 +12,10 @@
     <%= @post.body %>
   </li>
 
+  <li>
+    <strong>Date:</strong>
+    <%= format_date(@post.inserted_at) %>
+  </li>
 </ul>
 
 <div class="comment-box" data-id="<%= @post.id %>">
