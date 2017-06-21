@@ -15,7 +15,8 @@ use Mix.Config
 # which you typically run after static files are built.
 config :demo, Demo.Web.Endpoint,
   on_init: {Demo.Web.Endpoint, :load_from_system_env, []},
-  url: [host: "example.com", port: 80],
+  url: [scheme: "https", host: "og-seoul-phoenix-demo.herokuapp.com", port: 443],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
@@ -61,4 +62,12 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+config :demo, Demo.Web.Endpoint,
+  secret_key_base: "PvxvcmWX0DRZcWQHF1EQUTldHPjDBmadcoCSXYHF/qG6P0GHcxxus2hA3rQCz12v"
+
+# Configure your database
+config :demo, Demo.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  pool_size: 15,
+  url: System.get_env("DATABASE_URL"),
+  ssl: true
