@@ -1,6 +1,8 @@
 defmodule Demo.Web.UserSocket do
   use Phoenix.Socket
 
+  channel "comment:*", Demo.Web.CommentChannel
+
   ## Channels
   # channel "room:*", Demo.Web.RoomChannel
 

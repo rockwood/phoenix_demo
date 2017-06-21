@@ -19,3 +19,33 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+import {Socket} from "phoenix"
+
+let socket = new Socket("/socket", {params: {token: window.userToken}})
+
+socket.connect()
+
+document.querySelectorAll(".comment-box").forEach((commentBox) => {
+  let channel = socket.channel(`comment:post_${commentBox.dataset.id}`, {})
+  let commentList = commentBox.querySelector(".comment-list")
+  let commentInput = commentBox.querySelector(".comment-input")
+
+  commentInput.addEventListener("keypress", event => {
+    if(event.keyCode === 13) {
+      channel.push("shout", {body: commentInput.value})
+      commentInput.value = ""
+    }
+  })
+
+  channel.on("shout", (payload) => {
+    let commentItem = document.createElement("div");
+    commentItem.className = "well"
+    commentItem.innerText = payload.body
+    commentList.appendChild(commentItem)
+  })
+
+  channel.join()
+    .receive("ok", resp => { console.log("Joined successfully", resp) })
+    .receive("error", resp => { console.log("Unable to join", resp) })
+})

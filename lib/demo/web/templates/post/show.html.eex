@@ -14,5 +14,15 @@
 
 </ul>
 
+<div class="comment-box" data-id="<%= @post.id %>">
+  <h4>Realtime Comments</h4>
+
+  <div class="comment-list"></div>
+
+  <div class="form-group">
+    <input class="comment-input form-control"/>
+  </div>
+</div>
+
 <span><%= link "Edit", to: post_path(@conn, :edit, @post) %></span>
 <span><%= link "Back", to: post_path(@conn, :index) %></span>
